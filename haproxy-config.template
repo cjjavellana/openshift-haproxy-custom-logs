@@ -61,6 +61,7 @@ listen stats :1936
 frontend public
   bind :{{env "ROUTER_SERVICE_HTTP_PORT" "80"}}
   mode http
+  option httplog
   log global
   tcp-request inspect-delay 5s
   tcp-request content accept if HTTP
@@ -86,9 +87,10 @@ frontend public
 # that terminates encryption in this router (edge)
 frontend public_ssl
   bind :{{env "ROUTER_SERVICE_HTTPS_PORT" "443"}}
+  option httplog
+  log global
   tcp-request  inspect-delay 5s
   tcp-request content accept if { req_ssl_hello_type 1 }
-  log global
 
   # if the connection is SNI and the route is a passthrough don't use the termination backend, just use the tcp backend
   acl sni req.ssl_sni -m found
@@ -177,6 +179,7 @@ frontend fe_no_sni
 
 backend openshift_default
   mode http
+  option httplog
   log global
   option forwardfor
   #option http-keep-alive
@@ -239,6 +242,7 @@ backend be_tcp_{{$cfgIdx}}
 backend be_secure_{{$cfgIdx}}
   mode http
   option redispatch
+  option httplog
   log global
   balance leastconn
   timeout check 5000ms
