@@ -22,7 +22,7 @@ custom haproxy log file.
        echo "
          local1.*   /var/log/haproxy.log
          haproxy.*  /var/log/haproxy.log
-       " > /etc/syslog.d/haproxy.conf
+       " > /etc/rsyslog.d/haproxy.conf
 
 And restart rsyslogd.
 
