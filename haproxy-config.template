@@ -8,7 +8,7 @@
 global
   # maxconn 4096
   daemon
-  log 127.0.0.1 local7 debug
+  log {{env "HAPROXY_ROUTER_SYSLOG_ADDRESS" "127.0.0.1"}} local1 {{env "HAPROXY_ROUTER_LOG_LEVEL" "debug"}}
   ca-base /etc/ssl
   crt-base /etc/ssl
   stats socket /var/lib/haproxy/run/haproxy.sock mode 600 level admin
