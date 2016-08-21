@@ -1,0 +1,14 @@
+2016-08-21T01:20:37+00:00 localhost haproxy[336]: Stopping backend be_secure_openshift-infra_logging-kibana in 0 ms.
+2016-08-21T01:20:37+00:00 localhost haproxy[336]: Stopping backend be_secure_openshift-infra_logging-kibana-ops in 0 ms.
+2016-08-21T01:20:37+00:00 localhost haproxy[336]: Proxy public stopped (FE: 0 conns, BE: 0 conns).
+2016-08-21T01:20:37+00:00 localhost haproxy[336]: Proxy public_ssl stopped (FE: 0 conns, BE: 0 conns).
+2016-08-21T01:20:37+00:00 localhost haproxy[336]: Proxy openshift_default stopped (FE: 0 conns, BE: 0 conns).
+2016-08-21T01:20:37+00:00 localhost haproxy[336]: Proxy be_secure_openshift-infra_logging-kibana stopped (FE: 0 conns, BE: 0 conns).
+2016-08-21T01:20:37+00:00 localhost haproxy[336]: Proxy be_secure_openshift-infra_logging-kibana-ops stopped (FE: 0 conns, BE: 0 conns).
+2016-08-21T01:21:39+00:00 localhost haproxy[358]: 10.2.2.1:63148 [21/Aug/2016:01:21:35.189] public be_http_sample_frontend/f890cf5ab08f0e5e4ad740a6199c5d6d 0/0/0/4126/4126 200 3712 - - --NI 1/1/0/1/0 0/0 "GET / HTTP/1.1"
+2016-08-21T01:21:41+00:00 localhost haproxy[358]: 10.2.2.1:63148 [21/Aug/2016:01:21:39.315] public be_http_sample_frontend/f890cf5ab08f0e5e4ad740a6199c5d6d 1635/0/0/110/1745 404 324 - - --VN 1/1/0/1/0 0/0 "GET /favicon.ico HTTP/1.1"
+2016-08-21T01:21:50+00:00 localhost haproxy[379]: Proxy public started.
+2016-08-21T01:21:50+00:00 localhost haproxy[379]: Proxy public_ssl started.
+2016-08-21T01:21:50+00:00 localhost haproxy[379]: Proxy openshift_default started.
+2016-08-21T01:21:50+00:00 localhost haproxy[379]: Proxy be_secure_openshift-infra_logging-kibana started.
+2016-08-21T01:21:50+00:00 localhost haproxy[379]: Proxy be_secure_openshift-infra_logging-kibana-ops started.
