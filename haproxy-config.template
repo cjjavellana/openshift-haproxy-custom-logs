@@ -35,7 +35,7 @@ defaults
   # Add x-forwarded-for header.
   timeout connect 5s
   timeout client 30s
-  timeout server 30s
+  timeout server 300s
   # Long timeout for WebSocket connections.
   timeout tunnel 1h
 
@@ -87,7 +87,6 @@ frontend public
 # that terminates encryption in this router (edge)
 frontend public_ssl
   bind :{{env "ROUTER_SERVICE_HTTPS_PORT" "443"}}
-  option httplog
   log global
   tcp-request  inspect-delay 5s
   tcp-request content accept if { req_ssl_hello_type 1 }
@@ -116,7 +115,6 @@ frontend public_ssl
 # traffic
 ##########################################################################
 backend be_sni
-  log global
   server fe_sni 127.0.0.1:10444 weight 1 send-proxy
 
 frontend fe_sni
@@ -151,7 +149,6 @@ frontend fe_sni
 ##########################################################################
 # backend for when sni does not exist, or ssl term needs to happen on the edge
 backend be_no_sni
-  log global
   server fe_no_sni 127.0.0.1:10443 weight 1 send-proxy
 
 frontend fe_no_sni
@@ -180,7 +177,7 @@ frontend fe_no_sni
 backend openshift_default
   mode http
   option httplog
-  log global
+  log global 
   option forwardfor
   #option http-keep-alive
   option http-pretend-keepalive
@@ -210,7 +207,6 @@ backend be_edge_http_{{$cfgIdx}}
   mode http
   option redispatch
   option forwardfor
-  log global
   balance leastconn
   timeout check 5000ms
   http-request set-header X-Forwarded-Host %[req.hdr(host)]
@@ -224,7 +220,7 @@ backend be_edge_http_{{$cfgIdx}}
   {{ end }}
   http-request set-header Forwarded for=%[src];host=%[req.hdr(host)];proto=%[req.hdr(X-Forwarded-Proto)]
                 {{ range $idx, $endpoint := endpointsForAlias $cfg $serviceUnit }}
-  server {{$endpoint.ID}} {{$endpoint.IP}}:{{$endpoint.Port}} check inter 5000ms cookie {{$endpoint.ID}}
+  server {{$endpoint.IdHash}} {{$endpoint.IP}}:{{$endpoint.Port}} check inter 5000ms cookie {{$endpoint.IdHash}}
                 {{ end }}
             {{ end }}
 
@@ -241,14 +237,14 @@ backend be_tcp_{{$cfgIdx}}
             {{ if eq $cfg.TLSTermination "reencrypt" }}
 backend be_secure_{{$cfgIdx}}
   mode http
-  option redispatch
   option httplog
   log global
+  option redispatch
   balance leastconn
   timeout check 5000ms
   cookie OPENSHIFT_REENCRYPT_{{$cfgIdx}}_SERVERID insert indirect nocache httponly secure
                 {{ range $idx, $endpoint := endpointsForAlias $cfg $serviceUnit }}
-  server {{$endpoint.ID}} {{$endpoint.IP}}:{{$endpoint.Port}} ssl check inter 5000ms verify required ca-file {{ $workingDir }}/cacerts/{{$cfgIdx}}.pem cookie {{$endpoint.ID}}
+  server {{$endpoint.IdHash}} {{$endpoint.IP}}:{{$endpoint.Port}} ssl check inter 5000ms verify required ca-file {{ $workingDir }}/cacerts/{{$cfgIdx}}.pem cookie {{$endpoint.IdHash}}
                 {{ end }}
             {{ end  }}
         {{ end  }}{{/* $serviceUnit.ServiceAliasConfigs*/}}

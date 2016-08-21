@@ -3,7 +3,7 @@
 #
 # The standard name for this image is openshift/origin-haproxy-router
 #
-FROM openshift/origin-haproxy-router
+FROM docker.io/openshift/origin-haproxy-router:v1.2.0
 
 ADD haproxy-config.template /var/lib/haproxy/conf/haproxy-config.template
 

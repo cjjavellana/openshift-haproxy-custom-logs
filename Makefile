@@ -1,7 +1,7 @@
 #!/usr/bin/make
 
-IMAGE := ramr/origin-haproxy-router
-VERSION := v1
+IMAGE := default/origin-haproxy-router
+VERSION := v2
 
 all:	build
 
